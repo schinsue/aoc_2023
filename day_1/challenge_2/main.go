@@ -45,7 +45,6 @@ func main() {
 	numberWords := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
 
 	scanner := bufio.NewScanner(file)
-	// optionally, resize scanner's capacity for lines over 64K, see next example
 	for scanner.Scan() {
 		line := scanner.Text()
 		var lowIndex = 1000
@@ -79,7 +78,6 @@ func main() {
 
 		n, err := strconv.Atoi(number)
 
-		//check if error occured
 		if err != nil {
 			log.Fatal(err)
 		} else {
