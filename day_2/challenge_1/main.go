@@ -17,47 +17,38 @@ func LineParser(line string) (string, []string) {
 	return gameNumber, games
 }
 
+func isOverColorLimit(colorString string, colorLimit int, color string) bool {
+	stringValue := strings.Split(colorString, " "+color)
+	n, err := strconv.Atoi(stringValue[0])
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if n > colorLimit {
+		return true
+	}
+
+	return false
+}
+
 func isValidGame(games []string, limits map[string]int) bool {
 
 	for _, game := range games {
 		splitByColor := strings.Split(game, ", ")
-		for _, y := range splitByColor {
-			if strings.Contains(y, "red") {
-				stringValue := strings.Split(y, " red")
-				n, err := strconv.Atoi(stringValue[0])
-
-				if err != nil {
-					log.Fatal(err)
-				} else {
-					if n > limits["red"] {
-						return false
-					}
+		for _, str := range splitByColor {
+			switch {
+			case strings.Contains(str, "red"):
+				if isOverColorLimit(str, limits["red"], "red") {
+					return false
 				}
-			} else if strings.Contains(y, "blue") {
-				if strings.Contains(y, "blue") {
-					stringValue := strings.Split(y, " blue")
-					n, err := strconv.Atoi(stringValue[0])
-
-					if err != nil {
-						log.Fatal(err)
-					} else {
-						if n > limits["blue"] {
-							return false
-						}
-					}
+			case strings.Contains(str, "blue"):
+				if isOverColorLimit(str, limits["blue"], "blue") {
+					return false
 				}
-			} else if strings.Contains(y, "green") {
-				if strings.Contains(y, "green") {
-					stringValue := strings.Split(y, " green")
-					n, err := strconv.Atoi(stringValue[0])
-
-					if err != nil {
-						log.Fatal(err)
-					} else {
-						if n > limits["green"] {
-							return false
-						}
-					}
+			case strings.Contains(str, "green"):
+				if isOverColorLimit(str, limits["green"], "green") {
+					return false
 				}
 			}
 		}
